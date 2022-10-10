@@ -70,7 +70,36 @@ tomcat 　8.0.42（8.5也行）
 
 ## 2.war文件
 
-放入tomcat目录下webapp文件夹下，开启tomcat后，浏览器输入`http://[你的ip]:[tomcat的端口]/bilibili`即可启动
+放入tomcat目录下webapp文件夹下，再按照`/conf/server.xml`参考下面修改
+
+```xml
+<Server port="8098" shutdown="SHUTDOWN">
+  <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
+<Listener SSLEngine="on" className="org.apache.catalina.core.AprLifecycleListener" />
+<Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
+<Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+<Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
+<GlobalNamingResources>
+    <Resource auth="Container" description="User database that can be updated and saved" factory="org.apache.catalina.users.MemoryUserDatabaseFactory" name="UserDatabase" pathname="conf/tomcat-users.xml" type="org.apache.catalina.UserDatabase" />
+  </GlobalNamingResources>
+<Service name="Catalina">
+    <Connector connectionTimeout="20000" port="9993" protocol="HTTP/1.1" redirectPort="8490" />
+  <Engine defaultHost="localhost" name="Catalina">
+      <Realm className="org.apache.catalina.realm.LockOutRealm">
+        <Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase" />
+      </Realm>
+    <Host appBase="webapps" autoDeploy="true" name="localhost" unpackWARs="true">
+        <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt" />
+      </Host>
+    <Host autoDeploy="true" name="【你的ip或者url】" unpackWARs="true" xmlNamespaceAware="false" xmlValidation="false">
+        <Context crossContext="true" docBase="/www/server/tomcat_site/giligili.kkjz.xyz" path="" reloadable="true" />
+      </Host>
+    </Engine>
+  </Service>
+</Server>
+```
+
+开启tomcat后，浏览器输入`http://[你的ip或者ur]:9993`即可启动
 
 
 
