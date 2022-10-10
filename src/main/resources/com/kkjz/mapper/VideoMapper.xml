@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kkjz.mapper.VideoMapper" >
+  <resultMap id="BaseResultMap" type="com.kkjz.pojo.Video" >
+    <id column="videoID" property="videoID" jdbcType="VARCHAR" />
+    <result column="videoName" property="videoName" jdbcType="VARCHAR" />
+    <result column="videolookTime" property="videolookTime" jdbcType="VARCHAR" />
+    <result column="videoTime" property="videoTime" jdbcType="VARCHAR" />
+    <result column="videoState" property="videoState" jdbcType="VARCHAR" />
+    <result column="videocAtegory" property="videocAtegory" jdbcType="VARCHAR" />
+    <result column="videoImage" property="videoImage" jdbcType="LONGVARCHAR" />
+    <result column="videoAddress" property="videoAddress" jdbcType="LONGVARCHAR" />
+    <result column="videoCollection" property="videoCollection" jdbcType="LONGVARCHAR" />
+    <result column="videoLeaving" property="videoLeaving" jdbcType="LONGVARCHAR" />
+    <result column="userID" property="userID" jdbcType="VARCHAR" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="videoDescribe" property="videoDescribe" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from video
+    where videoID = #{videoID,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.kkjz.pojo.Video" >
+    insert into video (videoName, videolookTime,
+      videoTime, videoState, videocAtegory, 
+      videoImage, videoAddress, videoCollection, 
+      videoLeaving,userID,userName,videoDescribe)
+    values (#{videoName,jdbcType=VARCHAR}, #{videolookTime,jdbcType=VARCHAR},
+      #{videoTime,jdbcType=VARCHAR}, #{videoState,jdbcType=VARCHAR}, #{videocAtegory,jdbcType=VARCHAR}, 
+      #{videoImage,jdbcType=LONGVARCHAR}, #{videoAddress,jdbcType=LONGVARCHAR}, #{videoCollection,jdbcType=LONGVARCHAR}, 
+      #{videoLeaving,jdbcType=LONGVARCHAR},#{userID,jdbcType=VARCHAR},#{userName,jdbcType=VARCHAR},#{videoDescribe,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.kkjz.pojo.Video" >
+    update video
+    set videoName = #{videoName,jdbcType=VARCHAR},
+      videolookTime = #{videolookTime,jdbcType=VARCHAR},
+      videoTime = #{videoTime,jdbcType=VARCHAR},
+      videoState = #{videoState,jdbcType=VARCHAR},
+      videocAtegory = #{videocAtegory,jdbcType=VARCHAR},
+      videoImage = #{videoImage,jdbcType=LONGVARCHAR},
+      videoAddress = #{videoAddress,jdbcType=LONGVARCHAR},
+      videoCollection = #{videoCollection,jdbcType=LONGVARCHAR},
+      videoLeaving = #{videoLeaving,jdbcType=LONGVARCHAR},
+      userID = #{userID,jdbcType=LONGVARCHAR},
+      userName = #{userName,jdbcType=LONGVARCHAR},
+      videoDescribe = #{videoDescribe,jdbcType=LONGVARCHAR}
+    where videoID = #{videoID,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select videoID, videoName, videolookTime, videoTime, videoState, videocAtegory, videoImage, 
+    videoAddress, videoCollection, videoLeaving,userID,userName,videoDescribe
+    from video
+    where videoID = #{videoID,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select videoID, videoName, videolookTime, videoTime, videoState, videocAtegory, videoImage, 
+    videoAddress, videoCollection, videoLeaving,userID,userName,videoDescribe
+    from video
+  </select>
+
+  <!--通过分类随机选择指定个数的视频-->
+  <!--limit为-1代表遍历该分类全部-->
+  <select id="selectByVideoCategory" resultMap="BaseResultMap" >
+    select videoID, videoName, videolookTime, videoTime, videoState, videocAtegory, videoImage,
+    videoAddress, videoCollection, videoLeaving,userID,userName,videoDescribe
+    from video
+    <if test="videoCategory != null and videoCategory != '0'">
+      where videocAtegory = #{videoCategory,jdbcType=VARCHAR}
+    </if>
+    <if test="limitNum != null and limitNum != 0">
+      order by rand() limit #{limitNum}
+    </if>
+  </select>
+  <!--每页显示5个视频-->
+  <select id="selectByPage" resultMap="BaseResultMap" >
+    SELECT *
+    from video
+    WHERE userID = #{userID,jdbcType=VARCHAR}
+    ORDER BY videoID DESC
+    LIMIT #{indexNum},5
+  </select>
+  <!--查询视频数目-->
+  <select id="getAllCount" resultType="_integer">
+    SELECT COUNT(1)
+    FROM video
+    WHERE userID = #{userID,jdbcType=VARCHAR}
+  </select>
+</mapper>

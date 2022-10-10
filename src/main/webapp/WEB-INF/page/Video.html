@@ -1,0 +1,586 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org" style="height: 100%;">
+<head>
+    <base th:href="${#request.getContextPath()}+'/'">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script
+            th:src="@{/static/Homepage/js/jquery.min.js}"></script>
+
+    <link rel="stylesheet"
+          th:href="@{/static/Homepage/video/css/bootstrap.min.css}">
+    <link rel="stylesheet"
+          th:href="@{/static/Homepage/video/css/dashboard.css}">
+    <link rel="stylesheet"
+          th:href="@{/static/Homepage/video/css/popuo-box.css}">
+    <link rel="stylesheet"
+          th:href="@{/static/Homepage/video/css/style.css}">
+
+
+    <style type="text/css">
+        body {
+            font: 12px/180% Arial, Helvetica, sans-serif, "新宋体";
+            background: #121212;
+            margin: 0;
+            padding: 0;
+            height: auto;
+        }
+
+        .fl {
+            float: left
+        }
+
+    </style>
+
+
+    <style>
+        /*body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code,*/
+        /*form, fieldset, legend, input, button, textarea, p, blockquote, th, td {*/
+        /*margin: 0;*/
+        /*padding: 0;*/
+        /*}*/
+
+        td, th, caption {
+            font-size: 14px;
+        }
+
+        /*h1, h2, h3, h4, h5, h6 {*/
+        /*!*font-weight: normal;*!*/
+        /*font-size: 50%;*/
+        /*}*/
+
+        address, caption, cite, code, dfn, em, strong, th, var {
+            font-style: normal;
+            font-weight: normal;
+        }
+
+        a {
+            color: #555;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            border: none;
+        }
+
+        ol, ul, li {
+            list-style: none;
+        }
+
+        input, textarea, select, button {
+            font: 14px Verdana, Helvetica, Arial, sans-serif;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        html {
+            overflow-y: scroll;
+        }
+
+        .clearfix:after {
+            content: ".";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+        .clearfix {
+            *zoom: 1;
+        }
+
+        #testBox {
+            position: relative;
+            width: 953px;
+            height: 537px;
+            margin: 0 auto;
+        }
+
+        #outSide {
+            margin: 0;
+            padding: 0;
+        }
+
+        #bg {
+            /*margin: 0;*/
+            /*padding: 0;*/
+            background-image: url("/static/bg.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            background-position-x: center;
+            height: auto;
+            display: block;
+
+        }
+
+        .dao_list {
+            float: left;
+            height: 30px;
+            margin-left: 15px;
+            perspective: 100px;
+        }
+
+        .centers_m {
+            padding-top: 50px;
+            width: 1200px;
+            height: auto;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 15px !important;
+            background-color: rgba(255, 255, 255, 0.9) !important;
+        }
+
+        .centers {
+            width: 80%;
+            height: auto;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .ylcon {
+            width: 100%;
+            min-width: 320px;
+        }
+
+        .tit {
+            height: 26px;
+            line-height: 26px;
+            padding: 0px 15px;
+            position: relative;
+            font-size: 15px;
+            color: #aaa;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+        }
+
+        .story {
+            border-bottom: 1px dashed #cecece;
+            padding: 0 15px 3px;
+            position: relative;
+        }
+
+        .story_t {
+            font-size: 1.2em;
+            color: rgba(0, 0, 0, 1);
+            padding-top: 5px;
+            padding-bottom: 2px;
+        }
+
+        .story_m {
+            color: rgba(110, 110, 110, 1);
+            line-height: 21px;
+            word-break: break-all;
+            word-wrap: break-word;
+            overflow: hidden;
+            font-size: 1.2em;
+            padding: 2px 0;
+        }
+
+        .story_time {
+            color: rgba(154, 154, 154, 1);
+            padding: 2px 0;
+        }
+
+        .story_hf {
+            background: rgb(245, 245, 245);
+            font-size: 1.2em;
+            border: 1px solid rgba(204, 204, 204, 0.2);
+            border-radius: 2px;
+            color: rgba(110, 110, 110, 1);
+            padding: 4px;
+            margin-bottom: 5px;
+        }
+
+        .opbtn {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+
+    </style>
+
+
+    <title>屄哩屄哩-视频区</title>
+</head>
+<body>
+<div style="width: 100%;height: 42px;background-color: #6C89B2;">
+    <div class="dao_list">
+        <button class="btn btn-primary ladda-button" data-style="expand-left" id="indexsf">
+            <span class="ladda-label"><a style="font-size: 10px; color: white; text-decoration: none"
+                                         href="index.sf">首页</a></span>
+        </button>
+
+    </div>
+    <div id="outSide">
+        <div style="margin-left: 80%;height: 30px;">
+            <button class="btn btn-primary ladda-button" data-style="expand-left" id="login"
+                    th:if="${#session.getAttribute('userName') == null}">
+				<span class="ladda-label"><a th:href="@{login.sf}"
+                                             style="font-size: 10px; color: white; text-decoration: none">登录</a></span>
+            </button>
+
+            <button class="btn btn-primary ladda-button" data-style="expand-left" id="zhuce"
+                    th:if="${#session.getAttribute('userName') == null}">
+				<span class="ladda-label"><a th:href="@{zhuce.sf}"
+                                             style="font-size: 10px; color: white; text-decoration: none">注册</a></span>
+            </button>
+
+            <!--unless-->
+
+            <button class="btn btn-primary ladda-button" data-style="expand-left" id="userxinxi"
+                    th:unless="${#session.getAttribute('userName') == null}">
+				<span class="ladda-label"><a th:href="@{User_full_information.sf}"
+                                             th:text="|欢迎你的登录:&nbsp; &nbsp; &nbsp;${#session.getAttribute('userName')}|"
+                                             style="font-size: 10px; color: white; text-decoration: none"></a>
+                    </a></span>
+            </button>
+
+
+        </div>
+
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#userxinxi").click(function () {
+                    window.location.href = "User_full_information.sf";
+
+                });
+                $("#login").click(function () {
+                    window.location.href = "login.sf";
+                });
+                $("#zhuce").click(function () {
+                    window.location.href = "zhuce.sf";
+                });
+            });
+        </script>
+    </div>
+
+
+</div>
+<div id="bg">
+    <div class="centers_m">
+        <div class="centers">
+            <h1 th:text="${title}" style="text-align: left; font-size: 25px;">未知</h1>
+            <h2 th:text="|上传者：${videoUper}|" style="text-align: left; color:Gray;font-size: 18px">上传者：未知</h2>
+
+            <div id="testBox" class="artplayer-app"></div>
+            <div>
+                <!--收藏按钮-->
+                <button th:if="${#session.getAttribute('userID') != null}"
+                        type="button" id="addFavourite"
+                        style="color:blue; font-size: 18px; float:right">
+                </button>
+                <h3 style="font-size: 18px">视频描述：</h3>
+                <br>
+                <p th:utext="${describe}" style="text-align: left;"></p>
+            </div>
+
+            <script th:src="@{/static/Homepage/videoPlay/artplayer.js}"></script>
+
+            <script th:inline="javascript">
+
+
+                var art = new Artplayer({
+                    container: '.artplayer-app',
+                    url: /*[[${videoURL}]]*/'',
+                    // autoplay: true,
+                    autoSize: true,
+                    autoMini: true,
+                    screenshot: true,
+                    setting: true,
+                    loop: true,
+                    flip: true,
+                    playbackRate: true,
+                    aspectRatio: true,
+                    fullscreen: true,
+                    fullscreenWeb: true,
+                    miniProgressBar: true,
+                    mutex: true,
+                    playsInline: true,
+                    autoPlayback: true,
+                    airplay: true,
+                    theme: '#23ade5',
+                });
+            </script>
+
+
+            <!-- 评论区 -->
+            <div class="all-comments">
+                <div class="all-comments-info">
+
+                    <div class="box" th:unless="${#session.getAttribute('userName') == null}">
+
+                        <input type="text" id="shipingID" style="display: none" name="shipingID"
+                               th:value="${#request.getAttribute('shipingID')}">
+
+                        <textarea placeholder="请输入留言内容---------内容不超过150字" id="message" required=""
+                                  name="message" style="width: 100%;"></textarea>
+                        <input type="button" id="button" value="发表">
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+
+                <!--查询收藏用js-->
+                <script type="text/javascript" th:inline="javascript">
+
+                    var isFavourite;
+
+                    // 查询是否收藏用函数
+                    function inquireFavourite() {
+                        $.ajax({
+                            url: 'ajaxinquireFavourite',
+                            type: 'GET',
+                            async: false,
+                            data: {
+                                videoID: /*[[${#request.getAttribute('shipingID')}]]*/""
+                            },
+                            success: function (returndata) {
+                                if (returndata == "success")
+                                    isFavourite = true;
+                                else
+                                    isFavourite = false;
+                            },
+                            error: function (returndata) {
+                                alert(returndata);
+                                return false;
+                            }
+                        })
+                    }
+
+
+                    $(document).ready(function () {
+
+                        inquireFavourite();
+                        if (isFavourite) {
+                            $("#addFavourite").text("已收藏")
+                        } else {
+                            $("#addFavourite").text("加入收藏")
+                        }
+
+                    });
+
+
+                    // 点击增加留言
+                    $("#button").click(function () {
+                        $.ajax({
+                            url: 'ajaxMessageUp',
+                            type: 'POST',
+                            data: {
+                                message: $("#message").val(),
+                                videoID: /*[[${#request.getAttribute('shipingID')}]]*/""
+                            },
+                            success: function (returndata) {
+                                alert("留言成功：" + returndata);
+                                location.reload();
+                            },
+                            error: function (returndata) {
+                                // console.log("returndata is :" + returndata)
+                                alert("上传失败：" + returndata);
+                            }
+                        })
+
+                    });
+
+
+                    // 收藏按钮按下时进行记录增加
+                    // 再次点击取消收藏
+                    $("#addFavourite").click(function () {
+                        if (!isFavourite) {
+                            // 若是没有收藏 post增加记录
+                            $.ajax({
+                                url: 'ajaxAddFavourite',
+                                type: 'POST',
+                                data: {
+                                    videoID: /*[[${#request.getAttribute('shipingID')}]]*/""
+                                },
+                                success: function (returndata) {
+                                    if (returndata == "success") {
+                                        isFavourite = true;
+                                        alert("收藏成功！");
+                                        $("#addFavourite").text("已收藏")
+                                    }
+                                    else
+                                        alert("未知错误");
+                                },
+                                error: function (returndata) {
+                                    alert(returndata);
+                                }
+                            })
+                        } else {
+                            // 否则用DELETE删除记录
+                            $.ajax({
+                                url: 'ajaxDeleteFavourite',
+                                type: 'POST',
+                                data: {
+                                    _method: 'delete',
+                                    videoID: /*[[${#request.getAttribute('shipingID')}]]*/""
+                                },
+                                success: function (returndata) {
+                                    if (returndata == 'success') {
+                                        isFavourite = false;
+                                        alert("取消收藏成功！");
+                                        $("#addFavourite").text("加入收藏")
+                                    }
+                                    else
+                                        alert("未知错误");
+                                },
+                                error: function (returndata) {
+                                    alert(returndata);
+                                }
+                            })
+
+                        }
+
+                    })
+
+
+                </script>
+
+                <div class="ylcon" id="texthide">
+                    <p class="tit">
+                        所有留言
+                    </p>
+                    <div id="messDivId">
+
+
+                    </div>
+
+
+                    <div align="center" style="color: black">
+                        <div id="pageDis">[[${page}]]/[[${allPage}]]</div>
+                        <button type="button" id="shou">首页</button>
+                        &nbsp;
+                        <button type="button" id="up">上一页</button>
+                        &nbsp;
+                        <button type="button" id="next">下一页</button>
+                        &nbsp;
+                        <button type="button" id="wei">尾页</button>
+                        &nbsp;<input type="text" id="textTo"
+                                     onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'');}).call(this)"
+                                     onblur="this.v();" style="width: 80px; height: 22px"></input> &nbsp;
+                        <button type="button" id="tiaozhuan">跳转</button>
+                    </div>
+
+                </div>
+                <!--页数切换js-->
+                <script type="text/javascript" th:inline="javascript">
+
+                    var nowPage = 1;
+                    var allPage = /*[[${allPage}]]*/1;
+
+                    function judgePage() {
+                        if (nowPage >= allPage) {
+                            $('#next').attr("disabled", true);
+                            $('#wei').attr("disabled", true);
+                        }else {
+                            $('#next').attr("disabled", false);
+                            $('#wei').attr("disabled", false);
+                        }
+
+                        if (nowPage <= 1) {
+                            $('#up').attr("disabled", true);
+                            $('#shou').attr("disabled", true);
+                        }else {
+                            $('#up').attr("disabled", false);
+                            $('#shou').attr("disabled", false);
+                        }
+                    }
+
+                    function queryMessage(page) {
+                        $.ajax({
+                            url: 'ajaxQueryMessage',
+                            type: 'GET',
+                            async: true,
+                            data: {
+                                videoID: /*[[${shipingID}]]*/"",
+                                messagePage: page
+                            },
+                            success: function (returndata) {
+                                var ht = eval("(" + returndata + ")");
+                                var i = 0;
+                                var reshtml = "";
+                                $.each(ht, function (index, m) {
+                                    reshtml += "<div class=\"story\">\n" +
+                                        "<div class=\"opbtn\"></div>\n" +
+                                        "<p class=\"story_t\">" +
+                                        m.messageuserName +
+                                        "</br>\n" +
+                                        "<a class=\"fl\" href=\"\"><img src=\"" +
+                                        m.messageHand +
+                                        "\" alt=\"\"\n" +
+                                        " width=\"70px\" ;height=\"70px\"/></a>\n" +
+                                        "</p>\n" +
+                                        "<p class=\"story_m\" style=\"padding :5px;\">" +
+                                        m.message +
+                                        "</p>\n" +
+                                        "</br>\n" +
+                                        "<p class=\"story_time\">" +
+                                        m.messageTime +
+                                        "</p>\n" +
+                                        "</div>";
+                                })
+                                //    写入dom
+                                $('#messDivId').html(reshtml);
+
+                            },
+                            error: function (returndata) {
+                                alert(returndata);
+                                return "";
+                            }
+                        })
+
+                    }
+
+                    // function结束
+
+                    $(document).ready(function () {
+                        queryMessage(nowPage);
+                        judgePage();
+                    });
+
+                    $('#shou').click(function () {
+                        nowPage = 1;
+                        queryMessage(nowPage);
+                        judgePage();
+                    })
+                    $('#up').click(function () {
+                        nowPage--;
+                        queryMessage(nowPage);
+                        judgePage();
+
+                    })
+                    $('#next').click(function () {
+                        nowPage++;
+                        queryMessage(nowPage);
+                        judgePage();
+                    })
+                    $('#wei').click(function () {
+                        nowPage = allPage;
+                        queryMessage(nowPage);
+                        judgePage();
+                    })
+
+                    //页面跳转js
+                    $('#tiaozhuan').click(function () {
+                        nowPage = $('#textTo').val();
+                        queryMessage(nowPage);
+                        judgePage();
+                    })
+
+
+                </script>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

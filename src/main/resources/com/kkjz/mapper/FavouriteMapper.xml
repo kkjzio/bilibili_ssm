@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kkjz.mapper.FavouriteMapper">
+    <resultMap id="BaseResultMap" type="com.kkjz.pojo.Favourite">
+        <id column="favouriteID" property="favouriteID" jdbcType="INTEGER"/>
+        <result column="videoID" property="videoID" jdbcType="VARCHAR"/>
+        <result column="videoName" property="videoName" jdbcType="VARCHAR"/>
+        <result column="videoImage" property="videoImage" jdbcType="LONGVARCHAR"/>
+        <result column="userID" property="userID" jdbcType="VARCHAR"/>
+        <result column="favouriteTime" property="favouriteTime" jdbcType="VARCHAR"/>
+    </resultMap>
+    <delete id="deleteByPrimaryKeyOrVideoID">
+        delete from favourite
+        where
+        <if test="favouriteID != null">
+        favouriteID = #{favouriteID}
+        </if>
+        <if test="videoID != null">
+        videoID = #{videoID}
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.kkjz.pojo.Favourite">
+        insert into favourite
+        (videoID,videoName,videoImage,userID)
+        values (#{videoID},#{videoName},#{videoImage},#{userID})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.kkjz.pojo.Video">
+        update favourite
+        set
+        videoID = #{videoID},
+        videoName = #{videoName},
+        videoImage = #{videoImage},
+        userID = #{userID}
+        where favouriteID = #{favouriteID}
+    </update>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" >
+        select *
+        from favourite
+        where favouriteID = #{favouriteID}
+    </select>
+    <!--每一页5个,计算在Impl函数中实现-->
+    <select id="selectByPage" resultMap="BaseResultMap" >
+        SELECT *
+        from favourite
+        WHERE userID = #{userID,jdbcType=VARCHAR}
+        ORDER BY favouriteTime DESC
+        LIMIT #{indexNum},5
+    </select>
+    <!--查询收藏夹数目-->
+    <select id="getCount" resultType="_integer">
+        SELECT COUNT(1)
+        FROM favourite
+        WHERE userID = #{userID,jdbcType=VARCHAR}
+        <if test="videoID != null">
+            AND videoID = #{videoID}
+        </if>
+    </select>
+    <!--查询一条收藏记录-->
+    <select id="selectByVideoIDAndUserID" resultMap="BaseResultMap">
+        SELECT *
+        FROM favourite
+        WHERE userID = #{userID,jdbcType=VARCHAR} AND videoID = #{videoID}
+    </select>
+
+</mapper>

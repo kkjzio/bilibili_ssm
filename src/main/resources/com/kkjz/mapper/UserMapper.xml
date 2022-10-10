@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kkjz.mapper.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.kkjz.pojo.User" >
+    <id column="userID" property="userID" jdbcType="VARCHAR" />
+    <result column="userMingzi" property="userMingzi" jdbcType="VARCHAR" />
+    <result column="userName" property="userName" jdbcType="VARCHAR" />
+    <result column="usersex" property="usersex" jdbcType="VARCHAR" />
+    <result column="passWord" property="passWord" jdbcType="VARCHAR" />
+    <result column="userAddress" property="userAddress" jdbcType="VARCHAR" />
+    <result column="userPhone" property="userPhone" jdbcType="VARCHAR" />
+    <result column="userQQ" property="userQQ" jdbcType="VARCHAR" />
+    <result column="userEmial" property="userEmial" jdbcType="VARCHAR" />
+    <result column="userCollection" property="userCollection" jdbcType="VARCHAR" />
+    <result column="useryinghangka" property="useryinghangka" jdbcType="VARCHAR" />
+    <result column="userState" property="userState" jdbcType="VARCHAR" />
+    <result column="userLoginTime" property="userLoginTime" jdbcType="VARCHAR" />
+    <result column="userIP" property="userIP" jdbcType="VARCHAR" />
+    <result column="userPaypassword" property="userPaypassword" jdbcType="VARCHAR" />
+    <result column="userHand" property="userHand" jdbcType="LONGVARCHAR" />
+    <result column="userRMB" property="userRMB" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user
+    where userID = #{userID,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.kkjz.pojo.User" >
+    insert into user (userID, userMingzi, userName, 
+      usersex, passWord, userAddress, 
+      userPhone, userQQ, userEmial, 
+      userCollection, useryinghangka, userState, 
+      userLoginTime, userIP, userPaypassword, 
+      userHand, userRMB)
+    values (#{userID,jdbcType=VARCHAR}, #{userMingzi,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{usersex,jdbcType=VARCHAR}, #{passWord,jdbcType=VARCHAR}, #{userAddress,jdbcType=VARCHAR}, 
+      #{userPhone,jdbcType=VARCHAR}, #{userQQ,jdbcType=VARCHAR}, #{userEmial,jdbcType=VARCHAR}, 
+      #{userCollection,jdbcType=VARCHAR}, #{useryinghangka,jdbcType=VARCHAR}, #{userState,jdbcType=VARCHAR}, 
+      #{userLoginTime,jdbcType=VARCHAR}, #{userIP,jdbcType=VARCHAR}, #{userPaypassword,jdbcType=VARCHAR}, 
+      #{userHand,jdbcType=LONGVARCHAR}, #{userRMB,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.kkjz.pojo.User" >
+    update user
+    set userMingzi = #{userMingzi,jdbcType=VARCHAR},
+      userName = #{userName,jdbcType=VARCHAR},
+      usersex = #{usersex,jdbcType=VARCHAR},
+      passWord = #{passWord,jdbcType=VARCHAR},
+      userAddress = #{userAddress,jdbcType=VARCHAR},
+      userPhone = #{userPhone,jdbcType=VARCHAR},
+      userQQ = #{userQQ,jdbcType=VARCHAR},
+      userEmial = #{userEmial,jdbcType=VARCHAR},
+      userCollection = #{userCollection,jdbcType=VARCHAR},
+      useryinghangka = #{useryinghangka,jdbcType=VARCHAR},
+      userState = #{userState,jdbcType=VARCHAR},
+      userLoginTime = #{userLoginTime,jdbcType=VARCHAR},
+      userIP = #{userIP,jdbcType=VARCHAR},
+      userPaypassword = #{userPaypassword,jdbcType=VARCHAR},
+      userHand = #{userHand,jdbcType=LONGVARCHAR},
+      userRMB = #{userRMB,jdbcType=LONGVARCHAR}
+    where userID = #{userID,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select userID, userMingzi, userName, usersex, passWord, userAddress, userPhone, userQQ, 
+    userEmial, userCollection, useryinghangka, userState, userLoginTime, userIP, userPaypassword, 
+    userHand, userRMB
+    from user
+    where userID = #{userID,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select userID, userMingzi, userName, usersex, passWord, userAddress, userPhone, userQQ, 
+    userEmial, userCollection, useryinghangka, userState, userLoginTime, userIP, userPaypassword, 
+    userHand, userRMB
+    from user
+  </select>
+  <select id="cheakUserBynp" resultMap="BaseResultMap" >
+    select userID, userMingzi, userName, usersex, passWord, userAddress, userPhone, userQQ,
+    userEmial, userCollection, useryinghangka, userState, userLoginTime, userIP, userPaypassword,
+    userHand, userRMB
+    from user
+    where userName = #{userName} AND passWord = #{passWord}
+  </select>
+
+  <update id="updateHandimgByPrimaryKey" parameterType="java.lang.String">
+    UPDATE USER
+    SET userHand = #{userHand,jdbcType=LONGVARCHAR}
+    WHERE userID = #{userID,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectByUserName" resultMap="BaseResultMap">
+    select userID, userMingzi, userName, usersex, passWord, userAddress, userPhone, userQQ,
+    userEmial, userCollection, useryinghangka, userState, userLoginTime, userIP, userPaypassword,
+    userHand, userRMB
+    from user
+    where userName = #{userName}
+  </select>
+</mapper>

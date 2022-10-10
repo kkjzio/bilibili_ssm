@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!--  缓冲配置  -->
+        <setting name="cacheEnabled" value="true"/>
+        <!-- 懒加载 -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <!-- 缓冲区配置 -->
+        <setting name="localCacheScope" value="SESSION"/>
+    </settings>
+
+    <!--只加载mybatis.xml时用-->
+    <!--<properties resource="jdbc.properties"/>-->
+    <!--<typeAliases>-->
+        <!--<package name=""/>-->
+    <!--</typeAliases>-->
+    <!--<environments default="development">-->
+        <!--<environment id="development">-->
+            <!--<transactionManager type="JDBC"/>-->
+            <!--<dataSource type="POOLED">-->
+                <!--<property name="driver" value="${jdbc.driver}"/>-->
+                <!--<property name="url" value="${jdbc.url}"/>-->
+                <!--<property name="username" value="${jdbc.username}"/>-->
+                <!--<property name="password" value="${jdbc.password}"/>-->
+            <!--</dataSource>-->
+        <!--</environment>-->
+    <!--</environments>-->
+    <!--<mappers>-->
+        <!--<package name="com.kkjz.mapper"/>-->
+    <!--</mappers>-->
+</configuration>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kkjz.mapper.MessageMapper" >
+  <resultMap id="BaseResultMap" type="com.kkjz.pojo.Message" >
+    <id column="messageID" property="messageID" jdbcType="VARCHAR" />
+    <result column="messagevideoID" property="messagevideoID" jdbcType="VARCHAR" />
+    <result column="messageuserID" property="messageuserID" jdbcType="VARCHAR" />
+    <result column="messageuserName" property="messageuserName" jdbcType="VARCHAR" />
+    <result column="messageTime" property="messageTime" jdbcType="VARCHAR" />
+    <result column="message" property="message" jdbcType="LONGVARCHAR" />
+    <result column="messageHand" property="messageHand" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from message
+    where messageID = #{messageID,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByVideoID" parameterType="java.lang.String" >
+    delete from message
+    where messagevideoID = #{videoID,jdbcType=VARCHAR}
+  </delete>
+
+  <!--这里用了NOW()函数，不需要提供-->
+  <insert id="insert" parameterType="com.kkjz.pojo.Message" >
+    insert into message (messageID, messagevideoID, messageuserID, 
+      messageuserName, messageTime, message, 
+      messageHand)
+    values (#{messageID,jdbcType=VARCHAR}, #{messagevideoID,jdbcType=VARCHAR}, #{messageuserID,jdbcType=VARCHAR}, 
+      #{messageuserName,jdbcType=VARCHAR}, NOW(), #{message,jdbcType=LONGVARCHAR},
+      #{messageHand,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.kkjz.pojo.Message" >
+    update message
+    set messagevideoID = #{messagevideoID,jdbcType=VARCHAR},
+      messageuserID = #{messageuserID,jdbcType=VARCHAR},
+      messageuserName = #{messageuserName,jdbcType=VARCHAR},
+      messageTime = #{messageTime,jdbcType=VARCHAR},
+      message = #{message,jdbcType=LONGVARCHAR},
+      messageHand = #{messageHand,jdbcType=LONGVARCHAR}
+    where messageID = #{messageID,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select messageID, messagevideoID, messageuserID, messageuserName, messageTime, message, 
+    messageHand
+    from message
+    where messageID = #{messageID,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select messageID, messagevideoID, messageuserID, messageuserName, messageTime, message, 
+    messageHand
+    from message
+  </select>
+
+  <!--selectByvideoID-->
+  <select id="selectByvideoIDAndPage" resultMap="BaseResultMap">
+    SELECT *
+    FROM message
+    WHERE messagevideoID = #{videoid}
+    ORDER BY messageTime desc
+    LIMIT #{index},5
+  </select>
+
+  <!--updateAllHandimg-->
+  <update id="updateAllHandimg" parameterType="com.kkjz.pojo.Message" >
+    update message
+    set messageHand = #{messageHand,jdbcType=LONGVARCHAR}
+    where messageuserID = #{messageuserID,jdbcType=VARCHAR}
+  </update>
+
+  <!--查询评论数目-->
+  <select id="getAllCount" resultType="_integer">
+    SELECT COUNT(1)
+    FROM message
+    WHERE messagevideoID = #{videoid}
+  </select>
+</mapper>
