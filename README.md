@@ -70,7 +70,9 @@ tomcat 　8.0.42（8.5也行）
 
 ## 2.war文件
 
-放入tomcat目录下webapp文件夹下，再按照`/conf/server.xml`参考下面修改
+新建一个tomcat能访问的文件夹
+
+比如`biliblli_ssm`，将war包放入，进入tomcat目录下的`/conf/server.xml`参考下面修改
 
 ```xml
 <Server port="8098" shutdown="SHUTDOWN">
@@ -92,7 +94,7 @@ tomcat 　8.0.42（8.5也行）
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt" />
       </Host>
     <Host autoDeploy="true" name="【你的ip或者url】" unpackWARs="true" xmlNamespaceAware="false" xmlValidation="false">
-        <Context crossContext="true" docBase="/www/server/tomcat_site/giligili.kkjz.xyz" path="" reloadable="true" />
+        <Context crossContext="true" docBase="【存放war包的文件夹】" path="" reloadable="true" />
       </Host>
     </Engine>
   </Service>
